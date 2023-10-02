@@ -68,6 +68,7 @@ const LoginScreen = ({ navigation }) => {
       <Button title="Login" onPress={formik.handleSubmit} />
 
       <Button title="SignUps" onPress={() => {navigation.navigate("SignUpScreen")}} />
+      <Button title="Forget Password?" onPress={() => {navigation.navigate("ForgetPasswordScreen")}} />
 
     </View>
   );

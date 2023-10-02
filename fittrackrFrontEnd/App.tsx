@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './components/Home/HomeScreen';
 import LoginScreen from './components/Login&Registration/LoginScreen';
 import SignUpScreen from './components/Login&Registration/Registration/SignUpScreen';
+import {ForgetPasswordScreen} from "./components/Login&Registration/ForgetPassword";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
 import firebase from 'firebase/compat';
 
@@ -76,6 +77,7 @@ export default function RootLayout() {
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{ headerShown: false }} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="ForgetPasswordScreen" component={ForgetPasswordScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </ApolloProvider>
