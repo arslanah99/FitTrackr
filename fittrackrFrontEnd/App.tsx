@@ -73,11 +73,21 @@ export default function RootLayout() {
   return (
     <ApolloProvider client={client}>
       <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack.Navigator initialRouteName={user ? "HomeScreen" : "LoginScreen"}>
-          <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="ForgetPasswordScreen" component={ForgetPasswordScreen} options={{ headerShown: false }} />
+        <Stack.Navigator>
+          {user ? (
+            // If user is logged in
+            <>
+              <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+              {/* Add other authenticated routes here */}
+            </>
+          ) : (
+            // If user is not logged in
+            <>
+              <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
+              <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{ headerShown: false }} />
+              <Stack.Screen name="ForgetPasswordScreen" component={ForgetPasswordScreen} options={{ headerShown: false }} />
+            </>
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     </ApolloProvider>
