@@ -23,7 +23,6 @@ const validationSchema = Yup.object().shape({
 
 const SignUpScreen = ({navigation}) => {
   const [register] = useMutation(REGISTER_MUTATION);
-  const [email, setEmail] = useState('');
   
   const formik = useFormik({
     initialValues: { email: '', password: '' },
@@ -31,10 +30,9 @@ const SignUpScreen = ({navigation}) => {
     onSubmit: async (values) => {
         console.log("form values", values)
       try {
-        // const { data } = await register({
-        //     variables: { email: formik.values.email, password: formik.values.password },
-        // });
-        // console.log(data);
+        const { data } = await register({
+            variables: { email: formik.values.email, password: formik.values.password },
+        });
         // Navigate to the sign-in screen or home screen
         navigation.navigate('LoginScreen');
       } catch (error) {
@@ -71,6 +69,7 @@ const SignUpScreen = ({navigation}) => {
       <Button mode="contained" onPress={formik.handleSubmit}>
         Sign Up
       </Button>
+      <Button  mode="contained" onPress={() => {navigation.navigate("LoginScreen")}}>Go Back</Button>
     </View>
   );
 };
