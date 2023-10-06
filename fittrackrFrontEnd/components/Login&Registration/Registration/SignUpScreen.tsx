@@ -3,36 +3,34 @@ import { View, Text } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { gql, useMutation } from '@apollo/client';
+import firebase from 'firebase/compat';
 
-const REGISTER_MUTATION = gql`
-  mutation Register($email: String!, $password: String!) {
-    register(email: $email, password: $password) {
-      uid
-      email
-    }
-  }
-`;
 
 const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required('Email is required'),
-    password: Yup.string()
+  fullName: Yup.string()
+    .min(2, 'Full Name must be at least 2 characters')
+    .required('Full Name is required'),
+  email: Yup.string().email('Invalid email').required('Email is required'),
+  password: Yup.string()
     .min(6, 'Password must be at least 6 characters')
     .required('Password is required'),
 });
 
 const SignUpScreen = ({navigation}) => {
-  const [register] = useMutation(REGISTER_MUTATION);
   
   const formik = useFormik({
-    initialValues: { email: '', password: '' },
+    initialValues: { email: '', password: '', fullName: '' },
     validationSchema,
     onSubmit: async (values) => {
         console.log("form values", values)
       try {
-        const { data } = await register({
-            variables: { email: formik.values.email, password: formik.values.password },
-        });
+        const userCredential = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(values.email, values.password);
+      const user = userCredential.user;
+     await user?.updateProfile({
+        displayName: values.fullName
+      })
         // Navigate to the sign-in screen or home screen
         navigation.navigate('LoginScreen');
       } catch (error) {
@@ -53,7 +51,16 @@ const SignUpScreen = ({navigation}) => {
       {formik.touched.email && formik.errors.email ? (
         <Text>{formik.errors.email}</Text>
       ) : null}
-      
+          <TextInput
+        placeholder="FullName"
+        value={formik.values.fullName}
+        onChangeText={formik.handleChange('fullName')}
+        onBlur={formik.handleBlur('fullName')}
+        style={{ borderWidth: 1, width: 200, marginBottom: 10 }}
+      />
+      {formik.touched.fullName && formik.errors.fullName ? (
+        <Text>{formik.errors.fullName}</Text>
+      ) : null}
       <TextInput
         placeholder="Password"
         value={formik.values.password}
