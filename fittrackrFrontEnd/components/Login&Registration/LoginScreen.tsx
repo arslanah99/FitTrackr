@@ -11,17 +11,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-
-const blurhash =
-  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
-
-const textInputTheme = {
-  colors: {
-    text: '#E6E0E9',
-    background: 'transparent',
-    primary: '#E6E0E9',
-  },
-};
+import {AppConstants} from '../../constants/AppConstants';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),
@@ -50,93 +40,102 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image
-            source={FitTrackrIconName}
-            placeholder={blurhash}
-            style={styles.image}
-            contentFit="contain"
-          />
-        </View>
+      <View style={styles.imageContainer}>
+        <Image
+          source={FitTrackrIconName}
+          placeholder={AppConstants.blurhash}
+          style={styles.image}
+          contentFit="contain"
+        />
+      </View>
 
-        <View style={styles.loginContainer}>
-          <Text style={styles.LoginTitle}>Log in</Text>
-          <TextInput
-            label="Email"
-            value={formik.values.email}
-            onChangeText={formik.handleChange('email')}
-            onBlur={formik.handleBlur('email')}
-            mode="outlined"
-            theme={textInputTheme}
-            style={{width: '100%', marginBottom: 10}}
-          />
-          {formik.touched.email && formik.errors.email ? (
-            <Text style={{color: 'red', fontSize: 12}}>
-              {formik.errors.email}
-            </Text>
-          ) : null}
+      <View style={styles.loginContainer}>
+        <Text style={styles.LoginTitle}>Log in</Text>
+        <TextInput
+          textColor={AppConstants.textInputTheme.colors.textColor}
+          label="Email"
+          placeholder="Email"
+          value={formik.values.email}
+          onChangeText={formik.handleChange('email')}
+          onBlur={formik.handleBlur('email')}
+          mode="outlined"
+          theme={AppConstants.textInputTheme}
+          outlineStyle={AppConstants.textInputAuthOutlineStyle}
+          style={{
+            width: '100%',
+            marginBottom: 10,
+            backgroundColor: 'transparent',
+          }}
+        />
+        {formik.touched.email && formik.errors.email ? (
+          <Text style={AppConstants.formikErrorStyles}>
+            {formik.errors.email}
+          </Text>
+        ) : null}
 
-          <TextInput
-            label="Password"
-            value={formik.values.password}
-            onChangeText={formik.handleChange('password')}
-            onBlur={formik.handleBlur('password')}
-            secureTextEntry
-            theme={textInputTheme}
-            mode="outlined"
-            style={{width: '100%', marginBottom: 10}}
-          />
-          {formik.touched.password && formik.errors.password ? (
-            <Text style={{color: 'red', fontSize: 12}}>
-              {formik.errors.password}
-            </Text>
-          ) : null}
+        <TextInput
+          textColor={AppConstants.textInputTheme.colors.textColor}
+          label="Password"
+          outlineStyle={AppConstants.textInputAuthOutlineStyle}
+          value={formik.values.password}
+          onChangeText={formik.handleChange('password')}
+          onBlur={formik.handleBlur('password')}
+          secureTextEntry
+          theme={AppConstants.textInputTheme}
+          mode="outlined"
+          style={{width: '100%', marginBottom: 10}}
+        />
+        {formik.touched.password && formik.errors.password ? (
+          <Text style={AppConstants.formikErrorStyles}>
+            {formik.errors.password}
+          </Text>
+        ) : null}
 
-          <Button
-            mode="contained-tonal"
-            labelStyle={{fontFamily: 'Poppins-Bold', color: '#381E72'}}
-            style={styles.loginButton}
-            onPress={formik.handleSubmit}
-          >
-            Log in
-          </Button>
+        <Button
+          mode="contained-tonal"
+          labelStyle={{fontFamily: 'Poppins-Bold', color: '#381E72'}}
+          style={styles.loginButton}
+          onPress={formik.handleSubmit}
+        >
+          Log in
+        </Button>
 
+        <Button
+          mode="text"
+          onPress={() => {
+            navigation.navigate('ForgetPasswordScreen');
+          }}
+        >
+          Forget Password?
+        </Button>
+      </View>
+
+      <View style={styles.bottomMainContainer}>
+        <View style={styles.bottomDontHaveAccountContainer}>
+          <Text style={styles.dontHaveAnAccount}>Don't have an account?</Text>
           <Button
             mode="text"
             onPress={() => {
-              navigation.navigate('ForgetPasswordScreen');
+              navigation.navigate('SignUpScreen');
+            }}
+            labelStyle={{
+              color: '#FFFFFF',
+              textDecorationLine: 'underline',
+              fontFamily: 'Poppins-Bold',
+              marginHorizontal: 0,
+              paddingRight: wp('3%'),
+              paddingTop: hp('.1%'),
             }}
           >
-            Forget Password?
+            Sign up
           </Button>
         </View>
-
-        <View style={styles.bottomMainContainer}>
-          <View style={styles.bottomDontHaveAccountContainer}>
-            <Text style={styles.dontHaveAnAccount}>Don't have an account?</Text>
-            <Button
-              mode="text"
-              onPress={() => {
-                navigation.navigate('SignUpScreen');
-              }}
-              labelStyle={{
-                color: '#FFFFFF',
-                textDecorationLine: 'underline',
-                fontFamily: 'Poppins-Bold',
-                marginHorizontal: 0,
-                paddingRight: wp('3%'),
-                paddingTop: hp('.1%'),
-              }}
-            >
-              Sign up
-            </Button>
-          </View>
-          <View style={styles.termsOfServiceContainer}>
-            <Text style={styles.privacyPolicyTextStyle}>
-              Privacy Policy and Terms of Service
-            </Text>
-          </View>
+        <View style={styles.termsOfServiceContainer}>
+          <Text style={styles.privacyPolicyTextStyle}>
+            Privacy Policy and Terms of Service
+          </Text>
         </View>
+      </View>
     </View>
   );
 };
