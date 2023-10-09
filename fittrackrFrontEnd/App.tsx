@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { useColorScheme } from 'react-native';
-import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
-import { useFonts } from 'expo-font';
-import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, {useEffect, useState} from 'react';
+import {useColorScheme} from 'react-native';
+import {ApolloProvider, ApolloClient, InMemoryCache} from '@apollo/client';
+import {useFonts} from 'expo-font';
+import {
+  NavigationContainer,
+  DarkTheme,
+  DefaultTheme,
+} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeScreen from './components/Home/HomeScreen';
 import LoginScreen from './components/Login&Registration/LoginScreen';
 import SignUpScreen from './components/Login&Registration/Registration/SignUpScreen';
-import {ForgetPasswordScreen} from "./components/Login&Registration/ForgetPassword";
-import { getAuth, connectAuthEmulator } from "firebase/auth";
+import {ForgetPasswordScreen} from './components/Login&Registration/ForgetPassword';
+import {getAuth, connectAuthEmulator} from 'firebase/auth';
 import firebase from 'firebase/compat';
-
+import ProfileScreen from './components/ProfileScreen';
+import PowerBuildingScreen from './components/PowerBuilding/PowerBuilding';
+import TopNavBar from './constants/TopNavbar';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,14 +25,13 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-
 const firebaseConfig = {
-  apiKey: "placeholder",
-  authDomain: "placeholder",
-  projectId: "placeholder",
-  storageBucket: "placeholder",
-  messagingSenderId: "placeholder",
-  appId: "placeholder",
+  apiKey: 'placeholder',
+  authDomain: 'placeholder',
+  projectId: 'placeholder',
+  storageBucket: 'placeholder',
+  messagingSenderId: 'placeholder',
+  appId: 'placeholder',
 };
 
 // Initialize Firebase
@@ -39,14 +44,12 @@ if (__DEV__) {
   // If you are running on a physical device, replace http://localhost with the local ip of your PC. (http://192.168.x.x)
 
   const auth = getAuth();
-  connectAuthEmulator(auth, "http://10.0.2.2:6969/");
+  connectAuthEmulator(auth, 'http://10.0.2.2:6969/');
 }
-
-
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    'SpaceMono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+    SpaceMono: require('./assets/fonts/SpaceMono-Regular.ttf'),
     'Poppins-Thin': require('./assets/fonts/Poppins-Thin.ttf'),
     'Poppins-ExtraLight': require('./assets/fonts/Poppins-ExtraLight.ttf'),
     'Poppins-Light': require('./assets/fonts/Poppins-Light.ttf'),
@@ -77,23 +80,63 @@ export default function RootLayout() {
     return null;
   }
 
-
   return (
     <ApolloProvider client={client}>
-      <NavigationContainer theme={{colors: {background: "#121212"}}}>
+      <NavigationContainer theme={{colors: {background: '#121212'}}}>
         <Stack.Navigator>
           {user ? (
             // If user is logged in
             <>
-              <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+              <Stack.Screen
+                name="HomeScreen"
+                component={HomeScreen}
+                options={{
+                  headerShown: true,
+                  header: ({navigation}) => (
+                    <TopNavBar navigation={navigation} />
+                  ),
+                }}
+              />
+              <Stack.Screen
+                name="ProfileScreen"
+                component={ProfileScreen}
+                options={{
+                  headerShown: true,
+                  header: ({navigation}) => (
+                    <TopNavBar navigation={navigation} />
+                  ),
+                }}
+              />
+              <Stack.Screen
+                name="PowerBuilding"
+                component={PowerBuildingScreen}
+                options={{
+                  headerShown: true,
+                  header: ({navigation}) => (
+                    <TopNavBar navigation={navigation} />
+                  ),
+                }}
+              />
               {/* Add other authenticated routes here */}
             </>
           ) : (
             // If user is not logged in
             <>
-              <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
-              <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{ headerShown: false }} />
-              <Stack.Screen name="ForgetPasswordScreen" component={ForgetPasswordScreen} options={{ headerShown: false }} />
+              <Stack.Screen
+                name="LoginScreen"
+                component={LoginScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="SignUpScreen"
+                component={SignUpScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="ForgetPasswordScreen"
+                component={ForgetPasswordScreen}
+                options={{headerShown: false}}
+              />
             </>
           )}
         </Stack.Navigator>
