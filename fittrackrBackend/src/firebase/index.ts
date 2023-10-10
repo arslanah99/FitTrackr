@@ -1,5 +1,4 @@
-// firebase.js: File for initializing Firebase Admin SDK.
-const admin = require("firebase-admin");
+import * as admin from 'firebase-admin';
 
 // Initialize Firebase Admin SDK
 admin.initializeApp({
@@ -8,8 +7,8 @@ admin.initializeApp({
 
 const db = admin.firestore();
 db.settings({
-  host: "localhost:8082", // Replace with your Firestore emulator port
+  host: 'localhost:8082',
   ssl: false,
 });
 
-module.exports = db;
+export {db}

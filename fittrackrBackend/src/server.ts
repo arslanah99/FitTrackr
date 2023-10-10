@@ -1,14 +1,18 @@
-// index.js: The entry point where we'll set up and start the Apollo Server.
-const { ApolloServer } = require('apollo-server');
-const db = require('./firebase');
-const { typeDefs, resolvers } = require('./graphql/index');
+import { ApolloServer } from 'apollo-server';
+import { db } from './firebase'; // Import db from firebase.ts
+import { typeDefs, resolvers } from './graphql/schema'; 
+
+// Define the context type
+interface MyContext {
+  db: FirebaseFirestore.Firestore;
+}
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  cors: {
-    origin: '*',
-  },
+  context: ({ req }): MyContext => ({
+    db,
+  }),
 });
 
 server.listen({ host: '10.0.0.188', port: 4001 }).then(({ url }) => {
