@@ -1,8 +1,8 @@
-import { ApolloServer } from 'apollo-server';
-import { db } from './firebase'; // Import db from firebase.ts
+import { ApolloServer, gql } from 'apollo-server';
+import { db } from './firebase';
 import { typeDefs, resolvers } from './graphql/schema'; 
 
-// Define the context type
+// // Define the context type
 interface MyContext {
   db: FirebaseFirestore.Firestore;
 }
@@ -15,6 +15,9 @@ const server = new ApolloServer({
   }),
 });
 
-server.listen({ host: '10.0.0.188', port: 4001 }).then(({ url }) => {
+const port = 4001;
+
+// Start the server
+server.listen(port).then(({ url }) => {
   console.log(`🚀 Server ready at ${url}`);
 });

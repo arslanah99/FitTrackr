@@ -12,6 +12,7 @@ const logger = require('firebase-functions/logger');
 const admin = require('firebase-admin');
 
 admin.initializeApp();
+const db = admin.firestore();
 
 // // Create and deploy your first functions
 // // https://firebase.google.com/docs/functions/get-started
@@ -37,6 +38,25 @@ exports.register = onRequest(async (req, res) => {
 
     res.status(201).send(userRecord);
   } catch (error) {
+    res.status(400).send(error);
+  }
+});
+// Add a new workout
+exports.addWorkout = onRequest(async (req, res) => {
+  const { userId, workoutName, exercises } = req.body;
+
+  try {
+    const workoutRef = db.collection("Workouts").doc();
+    await workoutRef.set({
+      userId,
+      workoutName,
+      exercises
+    });
+
+    res.status(201).send({ id: workoutRef.id });
+    console.log("HIIII", workoutRef.id)
+  } catch (error) {
+    console.log("error", error)
     res.status(400).send(error);
   }
 });

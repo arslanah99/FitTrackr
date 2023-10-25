@@ -4,8 +4,6 @@ import {ApolloProvider, ApolloClient, InMemoryCache} from '@apollo/client';
 import {useFonts} from 'expo-font';
 import {
   NavigationContainer,
-  DarkTheme,
-  DefaultTheme,
 } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeScreen from './components/Home/HomeScreen';
@@ -17,6 +15,7 @@ import firebase from 'firebase/compat';
 import ProfileScreen from './components/ProfileScreen';
 import PowerBuildingScreen from './components/PowerBuilding/PowerBuilding';
 import TopNavBar from './constants/TopNavbar';
+import 'firebase/firestore';
 
 const Stack = createNativeStackNavigator();
 
@@ -45,6 +44,11 @@ if (__DEV__) {
 
   const auth = getAuth();
   connectAuthEmulator(auth, 'http://10.0.2.2:6969/');
+  const db = firebase.firestore();
+  db.settings({
+    host: "10.0.2.2:8085",
+    ssl: false
+  })
 }
 
 export default function RootLayout() {
@@ -68,7 +72,8 @@ export default function RootLayout() {
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
+      console.log("Firebase user: ", currentUser);  // Debugging line
+        setUser(currentUser);
     });
 
     return () => unsubscribe();

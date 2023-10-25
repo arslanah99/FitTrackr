@@ -30,7 +30,6 @@ const LoginScreen = ({navigation}) => {
           .auth()
           .signInWithEmailAndPassword(values.email, values.password);
         const user = userCredential.user;
-        console.log('User signed in: ', user);
         navigation.navigate('HomeScreen');
       } catch (error) {
         console.error('Error signing in: ', error, values);
