@@ -1,16 +1,5 @@
-// import { gql } from 'apollo-server';
-// import axios from 'axios';
-// import { QueryResolvers, MutationResolvers } from '../generated-types';  // <- Importing generated types
 import { gql } from 'apollo-server';
-import { db } from '../firebase';
-
-// Define your GraphQL schema
-// const typeDefs = gql`
-//   type Query {
-//     hello: String
-//   }
-// `;
-
+import {db} from "../../server.ts"
 const typeDefs = gql`
    type User {
         firstName: String

@@ -2,7 +2,7 @@
   "name": "fittrackrbackend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "generate": "graphql-codegen --config codegen.yml",
@@ -12,8 +12,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/node": "^20.8.8",
     "apollo-server": "^3.12.1",
     "axios": "^1.5.1",
+    "dotenv": "^16.3.1",
     "firebase-admin": "^11.11.0",
     "graphql": "^16.8.1"
   },
