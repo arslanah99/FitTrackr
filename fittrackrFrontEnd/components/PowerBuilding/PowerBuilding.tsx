@@ -56,7 +56,7 @@ const PowerBuildingScreen = () => {
    }, []);
   
   if (loading) return <Text>Loading...</Text>;
-  if (error) return <Text>Error: {error.message}</Text>;
+  if (error) return <Text style={{color: "white"}}>Error: {error.message}</Text>;
   console.log("GraphQL Data:", data);
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -66,7 +66,7 @@ const PowerBuildingScreen = () => {
       ))}
 
       {data?.getWorkoutPlans.map((plan, index) => (
-        <Text key={index}>Week {plan.WeekNumber} - Focus: {plan.Focus}</Text>
+        <Text key={index} style={{color: "white"}}>Week {plan.WeekNumber} - Focus: {plan.Focus}</Text>
       ))}
     </View>
   );

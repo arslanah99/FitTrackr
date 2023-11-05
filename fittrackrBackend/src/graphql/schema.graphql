@@ -6,52 +6,53 @@ type Mutation {
   createWorkoutPlan(input: WorkoutPlanInput): WorkoutPlan
 }
 
-input WorkoutPlanInput {
-  WeekNumber: Int!
-  Focus: String!
-}
-
 type WorkoutPlan {
   WeekNumber: Int!
   Focus: String!
-  Days: [Day!]!
+  Days: [DayInput!]!
 }
 
-type Day {
+input DayInput {
   DayNumber: Int!
   DayType: String!
   IsCompleted: Boolean!
   CompletionDate: String
-  Exercises: [Exercise!]!
+  Exercises: [ExerciseInput!]!
 }
 
-type Exercise {
+input ExerciseInput {
   Name: String!
-  Presets: Preset!
+  Presets: PresetInput!
   Substitutions: [String!]!
-  UserInput: UserInput!
+  UserInput: UserInputInput!
   Progress: [String!]!
   Info: String
 }
 
-type Preset {
+input PresetInput {
   Sets: Int!
   Reps: String!
   OneRM: String
   RPE: Int!
 }
 
-type UserInput {
+input UserInputInput {
   Reps: String
   Weight: String
   Notes: String
   Date: String
-  repsAndSets: [RepSet!]!
+  repsAndSets: [RepSetInput!]!
 }
 
-type RepSet {
+input RepSetInput {
   set1: Int
   set2: Int
   set3: Int
   set4: Int
+}
+
+input WorkoutPlanInput {
+  WeekNumber: Int!
+  Focus: String!
+  Days: [DayInput!]!
 }

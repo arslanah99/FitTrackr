@@ -15,23 +15,21 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-export type Day = {
-  __typename?: 'Day';
-  CompletionDate?: Maybe<Scalars['String']['output']>;
-  DayNumber: Scalars['Int']['output'];
-  DayType: Scalars['String']['output'];
-  Exercises: Array<Exercise>;
-  IsCompleted: Scalars['Boolean']['output'];
+export type DayInput = {
+  CompletionDate?: InputMaybe<Scalars['String']['input']>;
+  DayNumber: Scalars['Int']['input'];
+  DayType: Scalars['String']['input'];
+  Exercises: Array<ExerciseInput>;
+  IsCompleted: Scalars['Boolean']['input'];
 };
 
-export type Exercise = {
-  __typename?: 'Exercise';
-  Info?: Maybe<Scalars['String']['output']>;
-  Name: Scalars['String']['output'];
-  Presets: Preset;
-  Progress: Array<Scalars['String']['output']>;
-  Substitutions: Array<Scalars['String']['output']>;
-  UserInput: UserInput;
+export type ExerciseInput = {
+  Info?: InputMaybe<Scalars['String']['input']>;
+  Name: Scalars['String']['input'];
+  Presets: PresetInput;
+  Progress: Array<Scalars['String']['input']>;
+  Substitutions: Array<Scalars['String']['input']>;
+  UserInput: UserInputInput;
 };
 
 export type Mutation = {
@@ -44,12 +42,11 @@ export type MutationCreateWorkoutPlanArgs = {
   input?: InputMaybe<WorkoutPlanInput>;
 };
 
-export type Preset = {
-  __typename?: 'Preset';
-  OneRM?: Maybe<Scalars['String']['output']>;
-  RPE: Scalars['Int']['output'];
-  Reps: Scalars['String']['output'];
-  Sets: Scalars['Int']['output'];
+export type PresetInput = {
+  OneRM?: InputMaybe<Scalars['String']['input']>;
+  RPE: Scalars['Int']['input'];
+  Reps: Scalars['String']['input'];
+  Sets: Scalars['Int']['input'];
 };
 
 export type Query = {
@@ -57,31 +54,30 @@ export type Query = {
   getWorkoutPlan?: Maybe<WorkoutPlan>;
 };
 
-export type RepSet = {
-  __typename?: 'RepSet';
-  set1?: Maybe<Scalars['Int']['output']>;
-  set2?: Maybe<Scalars['Int']['output']>;
-  set3?: Maybe<Scalars['Int']['output']>;
-  set4?: Maybe<Scalars['Int']['output']>;
+export type RepSetInput = {
+  set1?: InputMaybe<Scalars['Int']['input']>;
+  set2?: InputMaybe<Scalars['Int']['input']>;
+  set3?: InputMaybe<Scalars['Int']['input']>;
+  set4?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type UserInput = {
-  __typename?: 'UserInput';
-  Date?: Maybe<Scalars['String']['output']>;
-  Notes?: Maybe<Scalars['String']['output']>;
-  Reps?: Maybe<Scalars['String']['output']>;
-  Weight?: Maybe<Scalars['String']['output']>;
-  repsAndSets: Array<RepSet>;
+export type UserInputInput = {
+  Date?: InputMaybe<Scalars['String']['input']>;
+  Notes?: InputMaybe<Scalars['String']['input']>;
+  Reps?: InputMaybe<Scalars['String']['input']>;
+  Weight?: InputMaybe<Scalars['String']['input']>;
+  repsAndSets: Array<RepSetInput>;
 };
 
 export type WorkoutPlan = {
   __typename?: 'WorkoutPlan';
-  Days: Array<Day>;
+  Days: Array<DayInput>;
   Focus: Scalars['String']['output'];
   WeekNumber: Scalars['Int']['output'];
 };
 
 export type WorkoutPlanInput = {
+  Days: Array<DayInput>;
   Focus: Scalars['String']['input'];
   WeekNumber: Scalars['Int']['input'];
 };
@@ -158,15 +154,15 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
-  Day: ResolverTypeWrapper<Day>;
-  Exercise: ResolverTypeWrapper<Exercise>;
+  DayInput: DayInput;
+  ExerciseInput: ExerciseInput;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
-  Preset: ResolverTypeWrapper<Preset>;
+  PresetInput: PresetInput;
   Query: ResolverTypeWrapper<{}>;
-  RepSet: ResolverTypeWrapper<RepSet>;
+  RepSetInput: RepSetInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  UserInput: ResolverTypeWrapper<UserInput>;
+  UserInputInput: UserInputInput;
   WorkoutPlan: ResolverTypeWrapper<WorkoutPlan>;
   WorkoutPlanInput: WorkoutPlanInput;
 };
@@ -174,86 +170,37 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
-  Day: Day;
-  Exercise: Exercise;
+  DayInput: DayInput;
+  ExerciseInput: ExerciseInput;
   Int: Scalars['Int']['output'];
   Mutation: {};
-  Preset: Preset;
+  PresetInput: PresetInput;
   Query: {};
-  RepSet: RepSet;
+  RepSetInput: RepSetInput;
   String: Scalars['String']['output'];
-  UserInput: UserInput;
+  UserInputInput: UserInputInput;
   WorkoutPlan: WorkoutPlan;
   WorkoutPlanInput: WorkoutPlanInput;
-};
-
-export type DayResolvers<ContextType = any, ParentType extends ResolversParentTypes['Day'] = ResolversParentTypes['Day']> = {
-  CompletionDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  DayNumber?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  DayType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  Exercises?: Resolver<Array<ResolversTypes['Exercise']>, ParentType, ContextType>;
-  IsCompleted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type ExerciseResolvers<ContextType = any, ParentType extends ResolversParentTypes['Exercise'] = ResolversParentTypes['Exercise']> = {
-  Info?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  Name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  Presets?: Resolver<ResolversTypes['Preset'], ParentType, ContextType>;
-  Progress?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  Substitutions?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  UserInput?: Resolver<ResolversTypes['UserInput'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createWorkoutPlan?: Resolver<Maybe<ResolversTypes['WorkoutPlan']>, ParentType, ContextType, Partial<MutationCreateWorkoutPlanArgs>>;
 };
 
-export type PresetResolvers<ContextType = any, ParentType extends ResolversParentTypes['Preset'] = ResolversParentTypes['Preset']> = {
-  OneRM?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  RPE?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  Reps?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  Sets?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getWorkoutPlan?: Resolver<Maybe<ResolversTypes['WorkoutPlan']>, ParentType, ContextType>;
 };
 
-export type RepSetResolvers<ContextType = any, ParentType extends ResolversParentTypes['RepSet'] = ResolversParentTypes['RepSet']> = {
-  set1?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  set2?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  set3?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  set4?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type UserInputResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserInput'] = ResolversParentTypes['UserInput']> = {
-  Date?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  Notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  Reps?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  Weight?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  repsAndSets?: Resolver<Array<ResolversTypes['RepSet']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type WorkoutPlanResolvers<ContextType = any, ParentType extends ResolversParentTypes['WorkoutPlan'] = ResolversParentTypes['WorkoutPlan']> = {
-  Days?: Resolver<Array<ResolversTypes['Day']>, ParentType, ContextType>;
+  Days?: Resolver<Array<ResolversTypes['DayInput']>, ParentType, ContextType>;
   Focus?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   WeekNumber?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
-  Day?: DayResolvers<ContextType>;
-  Exercise?: ExerciseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
-  Preset?: PresetResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  RepSet?: RepSetResolvers<ContextType>;
-  UserInput?: UserInputResolvers<ContextType>;
   WorkoutPlan?: WorkoutPlanResolvers<ContextType>;
 };
 

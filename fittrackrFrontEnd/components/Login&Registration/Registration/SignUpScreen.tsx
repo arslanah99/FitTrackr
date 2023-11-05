@@ -10,8 +10,6 @@ import firebase from 'firebase/compat';
 import FitTrackrIconName from '../../../assets/images/fitTrackrIconName.svg';
 import { AppConstants } from '../../../constants/AppConstants';
 
-
-
 const validationSchema = Yup.object().shape({
   fullName: Yup.string()
     .min(2, 'Full Name must be at least 2 characters')

@@ -1,0 +1,2 @@
+how to genereate types again:
+npx graphql-codegen

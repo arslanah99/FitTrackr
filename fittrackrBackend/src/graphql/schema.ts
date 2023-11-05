@@ -1,15 +1,5 @@
-import { gql } from 'apollo-server';
 import {db} from "../../server.ts"
-const typeDefs = gql`
-   type User {
-        firstName: String
-        lastName: String 
-        email: String
-   }   
-   type Query {
-        users : [User]
-   }
-`
+import { typeDefs } from './typeDefs.ts';
 
 
 // Define resolvers to handle GraphQL queries
@@ -22,6 +12,30 @@ const resolvers = {
           resolve(data);
         });
       })
+    },
+  },
+  Mutation: {
+    createWorkoutPlan: async (_: any, { input }: any, { db }: any) => {
+      try {
+        // Create a new workout plan document in Firestore
+        const workoutPlanRef = db.collection('WorkoutPlans').doc();
+        await workoutPlanRef.set({
+          WeekNumber: input.WeekNumber,
+          Focus: input.Focus,
+          Days: input.Days // Assuming you're passing Days as an array of DayInput
+        });
+
+        // Here you might want to read the data back from Firestore
+        // or just return the input as is, depending on your needs
+        const workoutPlan = await workoutPlanRef.get();
+        if (!workoutPlan.exists) {
+          throw new Error('Failed to create workout plan.');
+        }
+        console.log('worked')
+        return workoutPlan.data();
+      } catch (error: any) {
+        throw new Error('Error creating workout plan: ' + error.message);
+      }
     },
   },
 };
@@ -37,63 +51,5 @@ const fetchAllUsers = (callback: { (data: unknown): void; (arg0: any[]): any; })
   })
   .catch(e => console.log(e));
 }
-
-
-// const resolvers = {
-//   Query: {
-//      users: () => {
-//         return new Promise((resolve, reject) => {
-            //  fetchAllUsers((data: unknown) => {
-            //      resolve(data);
-            // });
-//         });
-//      }
-//   }
-// }// Function to fetch all users from database
-
-
-// const typeDefs = gql`
-//   type Query {
-//     hello: String
-//     emojis: [String]
-//   }
-//   type Mutation {
-//     register(email: String!, password: String!): User
-//   }
-//   type User {
-//     uid: String
-//     email: String
-//   }
-// `;
-
-// const Query: QueryResolvers = {
-//   // hello: () => 'Hello, world!',
-//   // emojis: async () => {
-//   //   try {
-//   //     const response = await axios.get('http://127.0.0.1:8083/fittracker-local123/us-central1/getEmojis');
-//   //     return response.data;
-//   //   } catch (error) {
-//   //     console.error('Failed to fetch emojis:', error);
-//   //     return [];
-//   //   }
-//   // },
-// };
-
-// const Mutation: MutationResolvers = {
-//   // register: async (_: any, { email, password }: {email: string, password: string}) => {
-//   //   try {
-//   //     const response = await axios.post('http://127.0.0.1:8083/fittracker-local123/us-central1/register', {
-//   //       email,
-//   //       password,
-//   //     });
-//   //     return response.data;
-//   //   } catch (error) {
-//   //     console.error('Failed to register user:', error);
-//   //     throw new Error('Failed to register user');
-//   //   }
-//   // },
-// };
-
-// const resolvers = { Query, Mutation };
 
 export { typeDefs, resolvers };

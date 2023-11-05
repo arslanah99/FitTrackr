@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "generate": "graphql-codegen --config codegen.yml",
-    "start": "ts-node ./src/server.ts"
+    "start": "nodemon server.ts"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +17,7 @@
     "axios": "^1.5.1",
     "dotenv": "^16.3.1",
     "firebase-admin": "^11.11.0",
+    "firebase-functions": "^4.5.0",
     "graphql": "^16.8.1"
   },
   "devDependencies": {
